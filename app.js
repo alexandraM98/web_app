@@ -110,6 +110,7 @@ app.get('/patient', checkAuthenticated, (req, res)=>{
 
 app.get('/logout', (req, res) => {
     res.clearCookie('session-token');
+    req.session.destroy();
     res.redirect('/login');
 });
 
@@ -165,10 +166,20 @@ app.get('/auth/github/callback',
     res.redirect('/physician');
   });
 
+  //What I still need to figure out is how to clear cookies so that I can log out properly.
 /**GitHub Auth ends here....
 */
 
- app.get('/physician', (req, res)=>{
+const isAuth = (req, res, next) => {
+    if (req.user) {
+        next();
+    }
+    else {
+        res.redirect("/login");
+    }
+};
+
+ app.get('/physician', isAuth, (req, res)=>{
     res.render('home/physician');
 });
 

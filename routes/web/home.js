@@ -18,16 +18,5 @@ router.get('/videos', function(req, res) {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
 module.exports = router;
 
