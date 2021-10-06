@@ -1,7 +1,7 @@
 var express = require("express");
 //Path is a library that will enable me to search for paths, basic directories, etc (folder paths)
 var path = require("path");
-
+var session = require('express-session');
 
 var cookieParser = require("cookie-parser");
 var app = express();
@@ -9,7 +9,7 @@ app.set("port", process.env.port || 3000);
 
 //Is this working? I wonder?
 
-
+const passport = require("passport");
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs"); //ejs is a JavaScript templating engine and stands for Effective JavaScript
 
@@ -22,7 +22,18 @@ app.use("/api", require("./routes/api"));
 app.use(express.json());
 app.use(cookieParser()); //used to store our user tokens for the session and also to determine whether they can access certain routes
 
-
+app.use(
+    session({
+        secret: 'cat',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            httpOnly: true, //this cookie is going to be stored only in the server, not in the browser
+            secure: false, //because we are using http
+            maxAge: 24 * 60 * 60 * 1000,
+        },
+    })
+);
 
 app.listen(app.get("port"),function(){
     console.log("Server started on port " + app.get("port"));
@@ -111,12 +122,54 @@ app.get('/protectedRoute', checkAuthenticated, function(req, res) {
 //There are many ways in which to do routing in JS. A better practice is to do the routing in a 
 //separate file from app.js. That will be routes.js. This will be used for routing.
 
+
 /**GitHub Auth starts here....
 */
 
-app.get('/physician', (req, res)=>{
-    let user = req.user;
-    res.render('home/physician', {user});
+//In order for this to work, we need to serialise the user profile information into the session 
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, cb) {
+    cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+    cb(null, id);
+});
+
+const GitHubStrategy = require('passport-github').Strategy;
+
+passport.use(new GitHubStrategy({
+    clientID: "4391aa23cc6aec05091a",
+    clientSecret: "41d4277282bd0d6df982fe75691f163d252bc673",
+    callbackURL: "http://localhost:3000/auth/github/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    /* User.findOrCreate({ githubId: profile.id }, function (err, user) {
+      return cb(err, user);
+    }); */
+    console.log(profile);
+    cb(null, profile)
+  }
+));
+
+app.get('/auth/github',
+  passport.authenticate('github'));
+
+app.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect to physician view.
+    res.redirect('/physician');
+  });
+
+/**GitHub Auth ends here....
+*/
+
+ app.get('/physician', (req, res)=>{
+    res.render('home/physician');
 });
 
 
