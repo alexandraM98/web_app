@@ -7,7 +7,7 @@ var cookieParser = require("cookie-parser");
 var app = express();
 app.set("port", process.env.port || 3000);
 
-//Is this working?
+//Is this working? Hm?
 
 
 app.set("views", path.join(__dirname, "views"));
