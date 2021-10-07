@@ -1,3 +1,5 @@
 node_modules
-twitternpm.js
+.vscode
 .env
+package-lock.json
+package.json
