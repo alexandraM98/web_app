@@ -8,7 +8,7 @@ const app = express();
 const mysql = require('mysql');
 
 /* Require dotenv */
-//require('dotenv').config();
+require('dotenv').config();
 
 
 /* Setting the app port */

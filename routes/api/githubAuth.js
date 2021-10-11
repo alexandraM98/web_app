@@ -3,7 +3,7 @@ const passport = require("passport");
 const GitHubStrategy = require('passport-github').Strategy;
 const router = express.Router();
 
-//require('dotenv').config();
+require('dotenv').config();
 
 router.use(passport.initialize());
 
