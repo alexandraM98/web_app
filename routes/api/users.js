@@ -1,9 +1,17 @@
 var express = require("express");
+const mysqlconn = require("../../connection");
 
 var router = express.Router();
 
 router.get('/', function(req, res) {
-    res.json("This is a JSON status code for the user api.");
+    mysqlconn.query("SELECT * FROM user", (err, rows, fields) => {
+        if (!err) {
+            res.send(rows);
+        }
+        else {
+            console.log(err);
+        }
+    })
 });
 
 module.exports = router;

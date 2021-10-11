@@ -17,6 +17,10 @@ router.get('/videos', function(req, res) {
     res.render("home/videos");
 });
 
+router.get('/patientProfile', function(req, res) {
+    res.render("home/patientProfile");
+});
+
 
 module.exports = router;
 
