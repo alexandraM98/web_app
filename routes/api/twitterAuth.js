@@ -8,7 +8,7 @@ const passport = require("passport");
 const TwitterStrategy = require('passport-twitter').Strategy;
 const router = express.Router();
 
-require('dotenv').config();
+//require('dotenv').config();
 
 router.use(passport.initialize());
 
