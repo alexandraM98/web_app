@@ -5,7 +5,7 @@ const session = require('express-session');
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
 const app = express();
-
+const mysql = require('mysql');
 
 /* Require dotenv */
 require('dotenv').config();
@@ -40,8 +40,23 @@ const twitterAuth = require("./routes/api/twitterAuth");
 app.use("/twitterAuth", twitterAuth); 
 
 
-/* Setting up the MySQL connection from separate js file */
+/* Setting up the MySQL connection from separate js file 
 const mysqlconn = require("./connection");
+*/
+
+/* Setting up a MySQL connection */
+
+var con = mysql.createConnection({
+  host: process.env.host,
+  user: process.env.user,
+  password: process.env.password,
+  database: process.env.database
+});
+
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
+  });
 
 
 app.use(express.json());
@@ -160,7 +175,7 @@ app.get('/auth/github/callback',
   });
 
   app.get('/patientList', isAuth, (req, res)=>{
-    res.render('home/patientList');
+    fetchData(res);
   });
 
 /**GitHub Auth ends here....
@@ -196,3 +211,32 @@ passport.deserializeUser(function(id, cb) {
   cb(null, id);
 });
  
+
+
+
+function executeQuery (sql, cb) {
+  con.query(sql, function(err, result, fields) {
+    if (err) throw err;
+    cb(result);
+  })
+}
+
+function fetchData(res) {
+  executeQuery("SELECT * FROM user", function(result) {
+    res.write('<table><tr>');
+    for(let column in result[0]) {
+      res.write('<th><label>' + column + '</label></th>');
+    }
+
+    res.write('</tr>');
+    for(let row in result) {
+      res.write('<tr>');
+      for (let column in result[row]) {
+        res.write('<td><label>' + result[row][column] + '</label></td>');
+      }
+      res.write('</tr>');
+    }
+
+    res.end('</table>');
+  })
+}
