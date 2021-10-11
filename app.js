@@ -44,7 +44,7 @@ app.use("/twitterAuth", twitterAuth);
 const mysqlconn = require("./connection");
 */
 
-/* Setting up a MySQL connection */
+/* Setting up a MySQL connection 
 
 var con = mysql.createConnection({
   host: process.env.host,
@@ -57,7 +57,7 @@ con.connect(function(err) {
     if (err) throw err;
     console.log("Connected!");
   });
-
+*/
 
 app.use(express.json());
 app.use(cookieParser()); //used to store our user tokens for the session and also to determine whether they can access certain routes
@@ -175,7 +175,7 @@ app.get('/auth/github/callback',
   });
 
   app.get('/patientList', isAuth, (req, res)=>{
-    fetchData(res);
+    //fetchData(res);
   });
 
 /**GitHub Auth ends here....
