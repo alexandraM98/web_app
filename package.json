@@ -8,6 +8,10 @@
     "start": "node app.js",
     "dev": "nodemon app"
   },
+  "env": {
+    "production": "true",
+    "verboseApiCalls": "false"
+  },
   "author": "alexandra mitu",
   "license": "ISC",
   "dependencies": {
