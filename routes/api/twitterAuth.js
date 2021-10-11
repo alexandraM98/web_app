@@ -15,7 +15,7 @@ router.use(passport.initialize());
 passport.use(new TwitterStrategy({
     consumerKey: apiKey,
     consumerSecret: apiSecretKey,
-    callbackURL: "http://127.0. 0.1:3000/auth/twitter/callback"
+    callbackURL: "http://" + process.env.HOST + ":3000/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, cb) {
     /* User.findOrCreate({ twitterId: profile.id }, function (err, user) {
