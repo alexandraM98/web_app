@@ -15,7 +15,7 @@ router.use(passport.initialize());
 passport.use(new TwitterStrategy({
     consumerKey: apiKey,
     consumerSecret: apiSecretKey,
-    callbackURL: "http://" + process.env.HOST + ":" + process.env.PORT + "auth/twitter/callback"
+    callbackURL: "http://glacial-depths-83095.herokuapp.com/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, cb) {
     /* User.findOrCreate({ twitterId: profile.id }, function (err, user) {
