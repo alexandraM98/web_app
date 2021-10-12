@@ -10,7 +10,7 @@ router.use(passport.initialize());
 passport.use(new GitHubStrategy({
     clientID: process.env.gitClientID,
     clientSecret: process.env.gitClientSecret,
-    callbackURL: "http://" + process.env.HOST + ":3000/auth/github/callback"
+    callbackURL: "http://" + process.env.HOST + ":" + process.env.PORT + "/auth/github/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
     /* User.findOrCreate({ githubId: profile.id }, function (err, user) {
