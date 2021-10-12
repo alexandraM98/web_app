@@ -175,7 +175,7 @@ app.get('/auth/github/callback',
   });
 
   app.get('/patientList', isAuth, (req, res)=>{
-    //fetchData(res);
+    fetchData(res);
   });
 
 /**GitHub Auth ends here....
