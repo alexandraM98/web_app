@@ -223,6 +223,7 @@ function executeQuery (sql, cb) {
 
 function fetchData(res) {
   executeQuery("SELECT * FROM medicine", function(result) {
+    res.write('<%- include ("../_partials/_doc_header.ejs"); %>' + '<h1>View your patients</h1>');
     res.write('<table><tr>');
     for(let column in result[0]) {
       res.write('<th><label>' + column + '</label></th>');
@@ -237,6 +238,7 @@ function fetchData(res) {
       res.write('</tr>');
     }
 
-    res.end('</table>');
+    res.write('</table>');
+    res.end('<% include ("../_partials/_footer.ejs"); %>');
   })
 }
