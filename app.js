@@ -237,6 +237,6 @@ function fetchData(res) {
       res.write('</tr>');
     }
 
-    res.write('</table>');
+    res.end('</table>');
   })
 }
