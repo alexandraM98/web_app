@@ -222,7 +222,7 @@ function executeQuery (sql, cb) {
 }
 
 function fetchData(res) {
-  executeQuery("SELECT * FROM user", function(result) {
+  executeQuery("SELECT * FROM medicine", function(result) {
     res.write('<table><tr>');
     for(let column in result[0]) {
       res.write('<th><label>' + column + '</label></th>');
