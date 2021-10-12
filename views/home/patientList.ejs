@@ -1,0 +1,50 @@
+<%- include ("../_partials/_doc_header.ejs"); %>
+    <h1>View your patients and their details...</h1>
+    
+    <script>
+        const mysql = require('mysql');
+
+        var con = mysql.createConnection({
+        host: process.env.DB_HOST,
+        user: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_DATABASE
+        });
+
+        con.connect(function(err) {
+            if (err) throw err;
+            console.log("Connected!");
+        });
+
+        function executeQuery (sql, cb) {
+        con.query(sql, function(err, result, fields) {
+            if (err) throw err;
+            cb(result);
+        })
+        }
+
+        function fetchData(res) {
+        executeQuery("SELECT * FROM medicine", function(result) {
+            res.write('<table><tr>');
+            for(let column in result[0]) {
+            res.write('<th><label>' + column + '</label></th>');
+            }
+
+            res.write('</tr>');
+            for(let row in result) {
+            res.write('<tr>');
+            for (let column in result[row]) {
+                res.write('<td><label>' + result[row][column] + '</label></td>');
+            }
+            res.write('</tr>');
+            }
+
+            res.write('</table>');
+        })
+        }
+
+    </script>
+
+    <input type = "button" onclick = "fetchData(res)" value = "Display">  
+
+<% include ("../_partials/_footer.ejs"); %>
