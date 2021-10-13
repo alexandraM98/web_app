@@ -40,10 +40,6 @@ const twitterAuth = require("./routes/api/twitterAuth");
 app.use("/twitterAuth", twitterAuth); 
 
 
-/* Setting up the MySQL connection from separate js file 
-const mysqlconn = require("./connection");
-*/
-
 /* Setting up a MySQL connection 
 */
 var con = mysql.createConnection({
