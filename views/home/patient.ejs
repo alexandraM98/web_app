@@ -1,5 +1,7 @@
 <%- include ("../_partials/_patient_header.ejs"); %>
     <h1>Welcome, Patient!</h1>
-    <a href="\logout">Sign out.</a>
+    <form action="\logout">
+        <input type="submit" value="Log Out" />
+    </form>
     <p>Hi, <%= user.name %> </p>
 <% include ("../_partials/_footer.ejs"); %>
