@@ -5,7 +5,9 @@
 
   <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
-  <a href="/auth/github">Login with GitHub</a>
+  <form action="/auth/github">
+    <input type="submit" value="Login with GitHub" />
+  </form>
 
   <a href="/auth/twitter">Login with Twitter</a>
 
@@ -29,7 +31,7 @@
     }
 
   </script>
-  
+
     <script>
         function signOut() {
             var auth2 = gapi.auth2.getAuthInstance();
